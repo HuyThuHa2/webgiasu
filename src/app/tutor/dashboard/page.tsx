@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { ArrowLeft, Book, Briefcase, Star, Clock, AlertTriangle, Search } from 'lucide-react';
+import { ArrowLeft, Book, Briefcase, Star, Clock, AlertTriangle, Search, LogOut } from 'lucide-react';
+import { signout } from '@/app/(auth)/actions';
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import SuggestedJobs from './SuggestedJobs'
@@ -30,9 +31,16 @@ export default async function TutorDashboard() {
             <h1 className="text-3xl font-bold text-slate-900">Gia Sư</h1>
             <p className="text-slate-500 mt-1">Chào mừng bạn trở lại, hãy tìm kiếm lớp học phù hợp nhé!</p>
           </div>
-          <Link href="/" className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-600 bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Về trang chủ
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-600 bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm transition-colors">
+              <ArrowLeft className="w-4 h-4" /> Về trang chủ
+            </Link>
+            <form action={signout}>
+              <button type="submit" className="flex items-center gap-2 text-sm font-medium text-red-600 hover:text-red-700 bg-white px-4 py-2 rounded-lg border border-red-200 shadow-sm transition-colors hover:bg-red-50">
+                <LogOut className="w-4 h-4" /> Đăng xuất
+              </button>
+            </form>
+          </div>
         </div>
 
         {status === 'pending' && (

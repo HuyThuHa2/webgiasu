@@ -57,12 +57,26 @@ export async function signout() {
   redirect('/')
 }
 
+const getURL = () => {
+  let url =
+    process?.env?.NEXT_PUBLIC_SITE_URL ??
+    process?.env?.NEXT_PUBLIC_VERCEL_URL ??
+    'http://localhost:3000'
+  
+  // Đảm bảo có protocol (http/https)
+  url = url.startsWith('http') ? url : `https://${url}`
+  
+  // Xóa dấu slash cuối nếu có
+  url = url.endsWith('/') ? url.slice(0, -1) : url
+  return url
+}
+
 export async function signInWithGoogle() {
   const supabase = await createClient()
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
+      redirectTo: `${getURL()}/auth/callback`,
     },
   })
 
@@ -80,7 +94,7 @@ export async function signInWithFacebook() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'facebook',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
+      redirectTo: `${getURL()}/auth/callback`,
     },
   })
 
